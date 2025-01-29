@@ -139,6 +139,10 @@
                     if (state > 0) resetBtn.style.display = 'block';
                     
                     div.addEventListener('click', async () => {
+                        if (div.dataset.state === '2') {
+                            // Se o número estiver no estado laranja, não muda a cor ao clicar
+                            return;
+                        }
                         let newState = (parseInt(div.dataset.state) + 1) % 3;
                         if (newState === 1) {
                             const confirmChange = window.confirm('Você tem certeza que deseja mudar para o estado verde?');
