@@ -65,6 +65,7 @@
             padding: 10px 20px;
             border-radius: 5px;
             display: none;
+            z-index: 9999999;
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -72,6 +73,7 @@
 <body>
     <div class="notification" id="notification">Número atualizado!</div>
     <h1>Números Colaborativos</h1>
+    <p id="statusInfo">Carregando...</p>
     <div class="grid" id="numberGrid"></div>
 
     <script>
@@ -95,7 +97,9 @@
                     if (!data || !data.length) {
                         data = Array.from({ length: 1001 }, (_, i) => ({ number: i, state: 0 }));
                     }
-
+                    
+updateStatusInfo(data);
+                    
                     // Exibe os números no grid
                     displayNumbers(data);
                 } catch (err) {
@@ -114,6 +118,12 @@
                 }
             }
 
+function updateStatusInfo(numbers) {
+    const totalMarcados = numbers.filter(n => n.state > 0).length;
+    const totalRestantes = numbers.length - totalMarcados;
+    document.getElementById('statusInfo').textContent = `Marcados: ${totalMarcados} | Restantes: ${totalRestantes}`;
+}
+            
             function showNotification() {
                 const notification = document.getElementById('notification');
                 notification.style.display = 'block';
